@@ -62,8 +62,8 @@ public class RTPPlayer {
                         loc = RandomLocation.generateLocation(worldPlayer);
                 }
                 attempts++; //Add an attempt
-                //Load chunk and find out if safe location (asynchronously)
-                AsyncHandler.sync(() -> {
+                //Load chunk and find out if safe location (asynchronously)s
+                AsyncHandler.syncAtLocation(loc, () -> {
                     try { //Prior to 1.12 this async chunk will NOT work
                         CompletableFuture<Chunk> chunk = PaperLib.getChunkAtAsync(loc);
                         chunk.thenAccept(result -> {
@@ -94,7 +94,7 @@ public class RTPPlayer {
                     getPl().getCooldowns().add(player, worldPlayer.getWorld());
                 tpLoc.setYaw(player.getLocation().getYaw());
                 tpLoc.setPitch(player.getLocation().getPitch());
-                AsyncHandler.sync(() -> settings.teleport.sendPlayer(sendi, player, tpLoc, worldPlayer, attempts, type));
+                AsyncHandler.syncAtEntity(player, () -> settings.teleport.sendPlayer(sendi, player, tpLoc, worldPlayer, attempts, type));
             } else {
                 if (worldPlayer.getPlayerInfo().applyCooldown)
                     getPl().getCooldowns().removeCooldown(player, worldPlayer.getWorld());

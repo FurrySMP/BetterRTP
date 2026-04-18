@@ -19,6 +19,14 @@ public class AsyncHandler {
         getFolia().runAtEntity(entity, task -> runnable.run());
     }
 
+    public static void syncAtLocation(org.bukkit.Location loc, Runnable runnable) {
+        getFolia().runAtLocation(loc, task -> runnable.run());
+    }
+
+    public static java.util.concurrent.CompletableFuture<Boolean> teleport(org.bukkit.entity.Entity entity, org.bukkit.Location location) {
+        return getFolia().teleportAsync(entity, location);
+    }
+
     public static WrappedTask asyncLater(Runnable runnable, long ticks) {
         return getFolia().runLaterAsync(runnable, ticks);
     }
