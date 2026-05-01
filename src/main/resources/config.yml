@@ -41,6 +41,8 @@ Settings:
     FactionsBridge: false
     ## Respect CrashClaim claims (https://www.spigotmc.org/resources/crashclaim-claiming-plugin.94037/) (Added in 3.6.9)
     CrashClaim: false
+    ## Respect Homestead claims (https://github.com/TayebYassine/Homestead)
+    Homestead: false
 
   ## Output to console some debugging info
   Debugger: false
