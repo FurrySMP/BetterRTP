@@ -23,7 +23,7 @@ import me.SuperRonanCraft.BetterRTP.versions.AsyncHandler;
 
 public class CooldownHandler {
 
-    @Getter boolean enabled, loaded, cooldownByWorld;
+    @Getter boolean enabled, loaded, cooldownByWorld, resetOnDeath;
     @Getter private int defaultCooldownTime; //Global Cooldown timer
     private int lockedAfter; //Rtp's before being locked
     private final List<Player> downloading = new CopyOnWriteArrayList<>();
@@ -38,6 +38,7 @@ public class CooldownHandler {
             BetterRTP.debug("Cooldown = " + defaultCooldownTime);
             lockedAfter = config.getInt("Settings.Cooldown.LockAfter");
             cooldownByWorld = config.getBoolean("Settings.Cooldown.PerWorld");
+            resetOnDeath = config.getBoolean("Settings.Cooldown.ResetOnDeath");
         }
         queueDownload();
     }
@@ -103,6 +104,18 @@ public class CooldownHandler {
 
     public boolean locked(Player player) {
         return lockedAfter > 0 && getData(player).getRtpCount() >= lockedAfter;
+    }
+
+    public void removeCooldowns(Player player) {
+        PlayerData playerData = getData(player);
+        if (!playerData.getCooldowns().isEmpty()) {
+            for (Map.Entry<World, CooldownData> entry : playerData.getCooldowns().entrySet()) {
+                savePlayer(player, entry.getKey(), entry.getValue(), true);
+            }
+            playerData.getCooldowns().clear();
+        }
+        playerData.setGlobalCooldown(0);
+        savePlayer(player, null, null, true);
     }
 
     public void removeCooldown(Player player, World world) {

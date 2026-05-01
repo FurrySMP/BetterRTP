@@ -7,7 +7,17 @@ import me.SuperRonanCraft.BetterRTP.references.rtpinfo.worlds.WorldPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerRespawnEvent;
 
+import me.SuperRonanCraft.BetterRTP.BetterRTP;
+import org.bukkit.event.entity.PlayerDeathEvent;
+
 public class Death {
+
+    static void deathEvent(PlayerDeathEvent e) {
+        Player p = e.getEntity();
+        if (BetterRTP.getInstance().getCooldowns().isResetOnDeath()) {
+            BetterRTP.getInstance().getCooldowns().removeCooldowns(p);
+        }
+    }
 
     static void respawnEvent(PlayerRespawnEvent e) {
         Player p = e.getPlayer();
