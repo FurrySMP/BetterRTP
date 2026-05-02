@@ -52,7 +52,7 @@ public class PlayerInfo {
         //previousLocations.clear();
     }
 
-    private void unload(Player p) {
+    public void unload(Player p) {
         clearInvs(p);
         //cooldown.remove(p);
         rtping.remove(p);
